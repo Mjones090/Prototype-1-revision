@@ -1,17 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+
 
 public class PlayerController : MonoBehaviour
 {
     //private variables
-    //private float speed = 5.0f;
+    [SerializeField] float speed;
     [SerializeField] private float horsePower = 0;
     private float turnSpeed = 20;
     private float horizontalInput;
     private float verticalInput;
     private Rigidbody playerRb;
     [SerializeField] GameObject centerOfMass;
+    [SerializeField] TextMeshProUGUI speedometerText;
 
     // Start is called before the first frame update
     void Start()
@@ -32,5 +35,8 @@ public class PlayerController : MonoBehaviour
         playerRb.AddRelativeForce(Vector3.forward * horsePower * verticalInput);
         //turn left and right
         transform.Rotate(Vector3.up * Time.deltaTime * turnSpeed * horizontalInput);
+
+        speed = Mathf.RoundToInt(playerRb.velocity.magnitude * 2.237f); //for kph, change 2.237 to 3.6
+        speedometerText.SetText("Speed: " + speed + "mph");
     }
 }
